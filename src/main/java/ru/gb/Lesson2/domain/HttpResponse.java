@@ -1,45 +1,51 @@
 package ru.gb.Lesson2.domain;
 
-import ru.gb.Lesson2.SocketService;
+import java.io.Reader;
+import java.util.Map;
 
 public class HttpResponse {
 
-    private SocketService socketService;
-    private String statusCode;
+    private int statusCode;
+    private Map<String, String> headers;
+    private Reader body;
 
-    private static   String WWW = "D:\\Java\\Arch\\JavaArch\\src\\main\\java\\ru\\gb\\www\\index.html";
-
-    private String file;
-
-    public HttpResponse( String statusCode, String www, String file) {
-
-        this.statusCode = statusCode;
-        this.WWW = www;
-        this.file = file;
+    private HttpResponse() {
     }
 
-    public HttpResponse(SocketService socketService) {
-        this.socketService = socketService;
+    public int getStatusCode() {
+        return statusCode;
     }
 
-    public static   String getWWW() {
-        return WWW;
+    public Map<String, String> getHeaders() {
+        return headers;
     }
 
-    public String getFile() {
-        return file = ("HTTP/1.1 200 OK\n" +
-                "Content-Type: text/html; charset=utf-8\n" +
-                "\n");
+    public Reader getBody() {
+        return body;
     }
-
-    public SocketService getSocketService() {
-        return socketService = socketService;
+    public static ResponseBuilder createResponseBuilder(){
+        return new ResponseBuilder();
     }
+    public static class ResponseBuilder{
+        private HttpResponse response = new HttpResponse();
 
-    public String getStatusCode() {
-        return statusCode = ("HTTP/1.1 404 NOT_FOUND\n" +
-                "Content-Type: text/html; charset=utf-8\n" +
-                "\n");
+        private ResponseBuilder() {
+        }
+
+        public ResponseBuilder withStatusCode(int statusCode){
+            this.response.statusCode = statusCode;
+            return this;
+        }
+        public ResponseBuilder withHeaders(Map<String, String> headers){
+            this.response.headers = headers;
+            return this;
+        }
+        public ResponseBuilder withBody(Reader body){
+            this.response.body = body;
+            return this;
+        }
+        public HttpResponse build(){
+            return response;
+        }
     }
 }
-
