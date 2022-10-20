@@ -1,8 +1,5 @@
 package ru.gb.Lesson2.domain;
 
-import ru.gb.Lesson2.SocketService;
-
-import java.util.List;
 import java.util.Map;
 
 public class HttpRequest {
@@ -11,24 +8,62 @@ public class HttpRequest {
 
     private String path;
 
-    private List<String> headers;
+    private Map<String, String> headers;
 
-    private SocketService socketService;
     private String body;
 
-    public HttpRequest(String method, String path, List<String> headers, String body) {
-        this.method = method;
-        this.path = path;
-        this.headers = (List<String>) headers;
-        this.body = body;
+    private HttpRequest() {
     }
 
-    public HttpRequest(SocketService socketService) {
-        this.socketService = socketService;
+    public String getMethod() {
+        return method;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public String getBody() {
+        return body;
+    }
+    public static RequestBuilder createRequestBuilder(){
+        return new RequestBuilder();
+    }
+
+    public static class RequestBuilder {
+        private final HttpRequest request = new HttpRequest();
+
+        private RequestBuilder() {
+        }
+
+        public RequestBuilder withMethod(String method) {
+            this.request.method = method;
+            return this;
+        }
+
+        public RequestBuilder withPath(String path) {
+            this.request.path = path;
+            return this;
+        }
+
+        public RequestBuilder withHeader(Map<String, String> headers) {
+            this.request.headers = headers;
+            return this;
+        }
+
+        public RequestBuilder withBody(String body) {
+            this.request.body = body;
+            return this;
+        }
+
+        public HttpRequest build(){
+            return request;
+        }
     }
 
 
-    public List<String> getHeaders() {
-        return headers = socketService.readRequest();
-    }
 }

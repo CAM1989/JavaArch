@@ -1,7 +1,8 @@
 package ru.gb.Lesson2;
 
-import ru.gb.Lesson2.logger.ConsoleLogger;
+import ru.gb.Lesson2.domain.HttpResponse;
 import ru.gb.Lesson2.logger.Logger;
+import ru.gb.Lesson2.logger.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class SocketService implements Closeable {
 
-    private static final Logger logger = new ConsoleLogger();
+    private static final Logger logger = LoggerFactory.create();
 
     private final Socket socket;
 
@@ -39,13 +40,11 @@ public class SocketService implements Closeable {
         }
     }
 
-    public void writeResponse(String headers, Reader reader) {
+    public void writeResponse(HttpResponse response, ResponseSerializer serializer) {
         try {
             PrintWriter output = new PrintWriter(socket.getOutputStream());
-            output.print(headers);
-            if ( reader != null) {
-                reader.transferTo(output);
-            }
+            String responseString = serializer.serialize(response);
+            output.print(responseString);
             output.flush();
         } catch (IOException ex) {
             throw new IllegalStateException(ex);

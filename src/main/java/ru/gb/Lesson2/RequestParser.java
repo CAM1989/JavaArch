@@ -1,12 +1,10 @@
 package ru.gb.Lesson2;
 
+import ru.gb.Lesson2.domain.HttpRequest;
+
 import java.util.List;
 
 public interface RequestParser {
 
-    default String parse(List<String> rawRequest) {
-        String [] parts = rawRequest.get(0).split(" ");
-        return parts[1];
-    }
-
+    HttpRequest parse(List<String> rawRequest);
 }
