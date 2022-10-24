@@ -1,22 +1,26 @@
-package ru.gb.Lesson2;
+package ru.gb.Lesson2.service;
 
+import ru.gb.Lesson2.ResponseSerializer;
 import ru.gb.Lesson2.domain.HttpResponse;
 import ru.gb.Lesson2.logger.Logger;
 import ru.gb.Lesson2.logger.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SocketService implements Closeable {
+public class SocketServiceImpl implements SocketService {
 
     private static final Logger logger = LoggerFactory.create();
 
     private final Socket socket;
 
-    public SocketService(Socket socket) {
+    SocketServiceImpl(Socket socket) {
         this.socket = socket;
     }
 
@@ -26,7 +30,7 @@ public class SocketService implements Closeable {
                     new InputStreamReader(
                             socket.getInputStream(), StandardCharsets.UTF_8));
 
-            while (!input.ready());
+            while (!input.ready()) ;
 
             List<String> request = new ArrayList<>();
             while (input.ready()) {
