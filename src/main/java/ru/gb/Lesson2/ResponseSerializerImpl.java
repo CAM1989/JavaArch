@@ -18,6 +18,9 @@ public class ResponseSerializerImpl implements ResponseSerializer {
             case 404:
                 builder.append(httpResponse.getStatusCode()).append(" NOT_FOUND\n");
                 break;
+            case 405:
+                builder.append(httpResponse.getStatusCode()).append(" METHOD_NOT_ALLOWED\n");
+                break;
         }
         for (Map.Entry<String, String> header : httpResponse.getHeaders().entrySet()) {
             builder.append(header.getKey()).append(": ").append(header.getValue()).append("\n\n");
