@@ -5,14 +5,14 @@ import java.util.Map;
 
 public class HttpResponse {
 
-    private int statusCode;
+    private HttpCode statusCode;
     private Map<String, String> headers;
     private Reader body;
 
     private HttpResponse() {
     }
 
-    public int getStatusCode() {
+    public HttpCode  getStatusCode() {
         return statusCode;
     }
 
@@ -32,7 +32,7 @@ public class HttpResponse {
         private ResponseBuilder() {
         }
 
-        public ResponseBuilder withStatusCode(int statusCode){
+        public ResponseBuilder withStatusCode(HttpCode statusCode){
             this.response.statusCode = statusCode;
             return this;
         }
