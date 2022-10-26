@@ -26,7 +26,7 @@ public class RequestHandler implements Runnable {
     public void run() {
         List<String> requests = socketService.readRequest();
         HttpRequest request = requestParser.parse(requests);
-        handler.handle(request);
+        handler.handle(request, socketService);
         try{socketService.close();}
         catch (IOException e){
             throw new IllegalStateException(e);
